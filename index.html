@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Affiliate Program Application Mockup</title>
+    <!-- Load Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for aesthetic */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #581c87; /* Deep purple background */
+            background-image: radial-gradient(at 0% 0%, #a855f7 0%, transparent 50%), 
+                              radial-gradient(at 100% 100%, #ec4899 0%, transparent 50%); /* Subtle gradient/pattern simulation */
+        }
+        
+        /* Apply Button Styling */
+        .apply-btn {
+            background: linear-gradient(180deg, #ff4c68 0%, #fe2c55 100%);
+            box-shadow: 0 4px 10px rgba(254, 44, 85, 0.4);
+            /* Transition for hover state remains fast */
+            transition: all 0.15s ease-in-out; 
+        }
+        .apply-btn:hover {
+            box-shadow: 0 6px 15px rgba(254, 44, 85, 0.6);
+            transform: translateY(-1px);
+        }
+
+        /* Confetti simulation (simplified CSS) */
+        @keyframes confetti-fall {
+            /* Adjusted easing to ease-out for a softer landing/fall */
+            0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+
+        .confetti {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            opacity: 0;
+            /* Animation speed increased to 5s for slower, smoother fall */
+            animation: confetti-fall 5s ease-out infinite; 
+        }
+        
+        /* === NEW ANIMATIONS === */
+        
+        /* Card Entry Animation: Makes the main card slide up and fade in */
+        @keyframes card-entry {
+            0% { opacity: 0; transform: translateY(30px) scale(0.95); } /* Started lower and smaller */
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .animate-card-entry {
+            /* Increased duration and used a more aggressive ease-out function */
+            animation: card-entry 0.8s cubic-bezier(.23, 1, .32, 1) forwards; 
+            animation-delay: 0.2s; 
+        }
+
+        /* Success Text Pop Animation: Makes the SUCCESS text appear smoothly */
+        @keyframes success-pop {
+            0% { transform: scale(0.9); opacity: 0; } /* Start slightly smaller and fade */
+            100% { transform: scale(1); opacity: 1; } /* End at full size and opaque */
+        }
+        .animate-success-pop {
+            /* Increased duration to 1.0s and used a very gentle ease-out for maximum smoothness */
+            animation: success-pop 1.0s cubic-bezier(0, 0, 0.2, 1) forwards; 
+        }
+        
+        /* Updated: Button Flash Animation (now longer and smoother) */
+        @keyframes button-flash {
+            0% { transform: scale(1); box-shadow: 0 4px 10px rgba(254, 44, 85, 0.4); }
+            50% { 
+                transform: scale(0.97); /* Subtle press */
+                box-shadow: 0 0 40px rgba(255, 255, 255, 1), 0 0 20px rgba(254, 44, 85, 1); 
+            }
+            100% { transform: scale(1); box-shadow: 0 4px 10px rgba(254, 44, 85, 0.4); }
+        }
+        .animate-button-flash {
+            /* Increased duration to 400ms for a softer, longer press feedback */
+            animation: button-flash 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
+        }
+
+        /* === 3D Checkmark Style: Added the drop-shadow filter for glow and depth === */
+        #successCheck {
+            /* Strong glow effect for 3D/pop look */
+            filter: drop-shadow(0 0 15px rgba(74, 222, 128, 1)) drop-shadow(0 4px 8px rgba(0,0,0,0.4));
+            color: #4ade80; /* Bright green fill */
+            transition: all 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
+        }
+
+        /* JavaScript will handle setting random positions and delays */
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        tiktokRed: '#fe2c55',
+                        tiktokGreen: '#4ade80',
+                        tiktokDark: '#161823',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4">
+
+    <!-- Main Container - Simulating the Phone Screen -->
+    <!-- Applied card entry animation -->
+    <div class="w-full max-w-sm mx-auto shadow-2xl bg-white rounded-3xl p-6 transition-all duration-500 ease-in-out relative opacity-0 animate-card-entry">
+        
+        <!-- TikTok Logo Placeholder (Top Center) -->
+        <div class="absolute top-[-2rem] left-1/2 transform -translate-x-1/2 p-2 rounded-full bg-white shadow-xl">
+             <!-- Placeholder for TikTok swirl icon -->
+            <div class="w-8 h-8 rounded-full bg-tiktokDark relative">
+                <div class="absolute top-0 right-0 w-4 h-4 rounded-full bg-tiktokRed"></div>
+                <div class="absolute bottom-0 left-0 w-4 h-4 rounded-full bg-white opacity-50 mix-blend-screen"></div>
+            </div>
+        </div>
+
+        <!-- 1. Application Screen (Visible by default) -->
+        <div id="appScreen" class="space-y-6 pt-4">
+            
+            <!-- Header Row -->
+            <div class="flex justify-between items-center text-tiktokDark">
+                <button class="text-xl font-bold p-1">&lt;</button>
+                <button class="text-xl p-1 font-semibold text-gray-500">?</button>
+            </div>
+
+            <!-- Title -->
+            <h1 class="text-2xl font-extrabold leading-tight text-tiktokDark mt-6">
+                Earn commission with TikTok Shop Affiliate
+            </h1>
+
+            <!-- Eligibility Subtitle -->
+            <p class="text-xl font-semibold text-gray-700 pt-2">
+                You are eligible to apply!
+            </p>
+
+            <!-- Eligibility Checklist -->
+            <div class="space-y-4">
+                <!-- Transition duration increased to 1s for ultra-smooth list fade-in -->
+                <div class="flex items-center space-x-3 opacity-0 transition-opacity duration-1000 delay-300"> 
+                    <!-- Checkmark SVG Icon -->
+                    <svg class="w-6 h-6 text-tiktokGreen flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                    <span class="text-lg text-gray-800">Meet our Community Guidelines</span>
+                </div>
+                <!-- Transition duration increased to 1s for ultra-smooth list fade-in -->
+                <div class="flex items-center space-x-3 opacity-0 transition-opacity duration-1000 delay-500"> 
+                    <!-- Checkmark SVG Icon -->
+                    <svg class="w-6 h-6 text-tiktokGreen flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                    <span class="text-lg text-gray-800">Be at least 18 years old</span>
+                </div>
+            </div>
+
+            <!-- Apply Button -->
+            <button id="applyButton" class="apply-btn w-full text-white text-xl font-extrabold py-3.5 rounded-xl mt-8">
+                Apply
+            </button>
+        </div>
+
+        <!-- 2. Success Screen (Hidden by default) -->
+        <div id="successScreen" class="hidden text-center flex flex-col items-center justify-center min-h-[350px] space-y-8 p-4">
+            <!-- Heart Eyes Emoji -->
+            <span class="text-7xl animate-pulse">
+                😍
+            </span>
+            
+            <!-- SUCCESS! Text - Added id for JS and will get the pop class on click -->
+            <h2 id="successText" class="text-5xl font-black tracking-widest text-tiktokGreen success-text relative">
+                SUCCESS!
+            </h2>
+            
+            <!-- Large Checkmark Icon: UPDATED TO A CHUNKY, FILLED SVG FOR 3D EFFECT -->
+            <svg class="w-24 h-24 transform scale-100" 
+                 id="successCheck" 
+                 fill="currentColor" 
+                 viewBox="0 0 24 24" 
+                 xmlns="http://www.w3.org/2000/svg"
+            >
+                <!-- This path is a filled, chunky checkmark -->
+                <path d="M9 20L4 15L6.5 12.5L9 15L17.5 6.5L20 9L9 20Z" /> 
+            </svg>
+        </div>
+        
+        <!-- Confetti elements container -->
+        <!-- Increased transition duration for smoother fade-in of confetti container -->
+        <div id="confettiContainer" class="absolute inset-0 overflow-hidden pointer-events-none opacity-0 transition-opacity duration-1000"></div> 
+
+    </div>
+
+    <script>
+        const appScreen = document.getElementById('appScreen');
+        const successScreen = document.getElementById('successScreen');
+        const applyButton = document.getElementById('applyButton');
+        const confettiContainer = document.getElementById('confettiContainer');
+        const successText = document.getElementById('successText'); 
+
+        /**
+         * Simulates confetti by creating and animating small div elements.
+         */
+        function startConfettiSimulation() {
+            const colors = ['#fe2c55', '#4ade80', '#2563eb', '#facc15', '#a78bfa']; // TikTok-inspired colors
+            const numConfetti = 150; 
+            
+            // Increased fade-in duration for confetti container to 1000ms
+            confettiContainer.style.opacity = '1';
+
+            for (let i = 0; i < numConfetti; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti rounded-full';
+                
+                // Randomly set color and size
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                const size = Math.floor(Math.random() * 4) + 2; 
+                
+                confetti.style.backgroundColor = color;
+                confetti.style.width = `${size}px`;
+                confetti.style.height = `${size}px`;
+                
+                // Randomly set position within the card bounds (0% to 100% of container width)
+                const x = Math.random() * 100;
+                // Randomly set animation delay for staggered fall (-3s to start immediately)
+                const delay = Math.random() * -3; 
+                
+                confetti.style.left = `${x}%`;
+                confetti.style.animationDelay = `${delay}s`;
+                // Confetti duration set in CSS to 5s for smoother fall
+                confetti.style.animationDuration = `${Math.random() * 2 + 4}s`; // Adjusted range: 4s to 6s
+                
+                confettiContainer.appendChild(confetti);
+
+                // Remove element after animation to prevent memory leak
+                confetti.addEventListener('animationend', () => {
+                    confetti.remove();
+                });
+            }
+        }
+        
+        /**
+         * Triggers the initial fade-in transition for the list items.
+         */
+        function animateListItems() {
+            // Selects elements that are supposed to fade in with a delay
+            const listItems = document.querySelectorAll('#appScreen .space-y-4 > div.opacity-0');
+            listItems.forEach(item => {
+                // By removing opacity-0, we trigger the transition (duration/delay set in HTML)
+                item.classList.remove('opacity-0');
+            });
+        }
+
+
+        // Add event listener to the Apply button
+        applyButton.addEventListener('click', () => {
+            
+            // 1. Apply the flash animation
+            applyButton.classList.add('animate-button-flash');
+
+            // Wait for the animation (400ms) before transitioning screens
+            // This is the main delay for the visual transition
+            const transitionDelay = 400; 
+
+            setTimeout(() => {
+                // 2. Hide the application screen
+                appScreen.style.transition = 'opacity 0.6s ease-in';
+                appScreen.style.opacity = '0';
+                
+                // Wait for the opacity transition to complete before setting display:none
+                setTimeout(() => {
+                    appScreen.classList.add('hidden');
+                    appScreen.style.opacity = '1'; // Reset opacity for next use
+
+                    // 3. Show the success screen
+                    successScreen.classList.remove('hidden');
+                    successScreen.classList.add('flex'); 
+                    
+                    // 4. Start the visual effects
+                    startConfettiSimulation();
+                    
+                    // Add the pop animation class to the text
+                    successText.classList.add('animate-success-pop');
+
+                    // 5. Add a subtle scale/bounce effect to the checkmark
+                    const check = document.getElementById('successCheck');
+                    check.style.transitionDuration = '700ms'; 
+                    check.style.transform = 'scale(1.2)';
+                    setTimeout(() => {
+                        check.style.transform = 'scale(1)';
+                    }, 700); 
+
+                    // Clean up the flash class after use
+                    applyButton.classList.remove('animate-button-flash');
+
+                }, 600); // 600ms wait for appScreen fade-out
+                
+            }, transitionDelay); // Wait for the button flash (400ms)
+        });
+
+        // Trigger list animation once the page is fully loaded to ensure the transitions run
+        window.onload = function() {
+            // Give a slight delay after the main card appears to start the list fade-in
+            setTimeout(animateListItems, 400); 
+        }
+    </script>
+</body>
+</html>
